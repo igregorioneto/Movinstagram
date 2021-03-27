@@ -1,7 +1,30 @@
 <template>
-    <div>superman</div>
-    <div v-for="(sup,index) in superData" :key="index">
-        <p>{{sup.title}}</p>
+    <div class="container-postagem" v-for="(sup,index) in superData" :key="index">
+        <div class="postagem-img">
+            <img :src="sup.picture" alt="">
+        </div>
+
+        <div class="postagem-titulo">
+            <div class="postagem-foto-user">
+                <div class="agrupamento-titulo">
+                    <img src="../../public/img/superman.png" alt="">
+                    <p class="user">{{sup.user}}</p>                       
+                    <p class="title">{{sup.title}}</p>
+                </div>
+            </div>
+            <div class="postagem-titulo-user">
+                <div class="comentarios">
+                    <div class="icons" >
+                        <i class="like" >
+                            <img src="../../public/icons/coracao-normal.png" alt="">
+                        </i>
+                        <i class="comment" >
+                            <img src="../../public/icons/comentario.png" alt="">
+                        </i>
+                    </div>
+                </div>
+            </div>
+        </div>    
     </div>
 </template>
 
@@ -10,18 +33,83 @@ import { getPosts } from '../service/movinstagram-service.js';
 export default {
     data(){
         return{
-            superData: []
+            superData: [],
+            posts: 0
         }
     },
     mounted(){
         getPosts().then(resp => {
             this.superData = resp;
-            console.log(resp);
+            this.posts = resp.length;
         });
     }
 }
 </script>
 
 <style scoped>
+.container-postagem{
+    display: flex;
+    width: 90%;
+    border: 1px solid lightgray;
+    padding: 15px 20px;
+    margin-top: 10px;
+    margin-left: 30px;
+    border-radius: 5px;
+}
 
+.postagem-img{
+    flex: 1 1 0;
+    width: 40%;
+}
+
+.postagem-titulo{
+    flex: 1 1 0;
+    width: 50%;
+}
+
+.postagem-foto-user img{
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+
+.agrupamento-titulo{
+    display: flex;
+}
+
+.user{
+    font-weight: bold;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.title{
+    font-size: 14px;
+}
+/*icones - likes e comments*/
+.icons{
+    display: flex;
+}
+
+.comment{
+    flex: 1 1 0;
+    width: 20%;
+    margin-right: 80%;
+    margin-top: 10px;
+}
+
+.like{
+    flex: 1 1 0;
+    width: 20%;
+}
+.comment img{
+    margin-left: 15px;
+    width: 20px;
+    height: 20px;
+}
+
+.like img{
+    width: 40px;
+    height: 40px;
+}
 </style>

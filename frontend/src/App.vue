@@ -25,7 +25,7 @@
       <div class="box-timeline">
         <h4>Visualizar timeline com:</h4>
         <div class="box-heroi">
-          <div class="span-heroi">
+          <div @click="getRouter('/batman')" class="span-heroi">
             <div class="img-span-heroi">
               <img src="../public/img/batman.png" alt="">
             </div>
@@ -33,7 +33,7 @@
               <p>batman</p>
             </div>
           </div>
-          <div @click="getSuper" class="span-heroi">
+          <div @click="getRouter('/')" class="span-heroi">
             <div class="img-span-heroi">
               <img src="../public/img/superman.png" alt="">
             </div>
@@ -41,7 +41,7 @@
               <p>superman</p>
             </div>
           </div>
-          <div class="span-heroi">
+          <div @click="getRouter('/woman')" class="span-heroi">
             <div class="img-span-heroi">
               <img src="../public/img/wonderWoman.png" alt="">
             </div>
@@ -56,34 +56,28 @@
     <div class="separacao"></div>
 
     <div>
-      <super-perfil 
-        v-if="isRouterUse"
-      />
+      
 
     </div>
     
-    <router-view></router-view>
+    <router-view />
   </div>
 </template>
 
 <script>
-import SuperPerfil from './components/SuperPerfil.vue';
 
 export default {
   name: 'Movinstagram',
   components: {
-    SuperPerfil,
   },
   data(){
     return{
-      isRouteUse: false
     }
   },
   methods:{
-    getSuper(){
-      this.$router.push({path:"/"});
-      this.isRouteUse = true;
-    }
+    getRouter(rota){
+      this.$router.push({path: rota});
+    },
   }
 }
 </script>
@@ -169,18 +163,21 @@ export default {
   background-color: lightgray;
 }
 
-.span-heroi::selection{
-  border: 1px solid lightgray;
-  background-color: lightgray;
-}
-
 .name-span-heroi{
   margin-left: 10px;
+}
+.span-heroi-active{
+  display: flex;
+  margin-right: 5px;
+  padding: 6px;
+  cursor: pointer;
+  background-color: lightgray;
 }
 
 /*Postagens*/
 .separacao{
    border-bottom: 1px solid lightgray;
+   margin-bottom: 30px;
 }
 
 
