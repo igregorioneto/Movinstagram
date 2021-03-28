@@ -11,7 +11,7 @@ const router = createRouter({
     routes: [
         {path: "/", component: SuperPerfil},
         {path: "/batman", component: BatPerfil},
-        {path: "/woman", component: WomanPerfil}
+        {path: "/wonderWoman", component: WomanPerfil}
     ]
 });
 

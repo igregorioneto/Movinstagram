@@ -18,9 +18,29 @@
                         <i class="like" >
                             <img src="../../public/icons/coracao-normal.png" alt="">
                         </i>
+                        <i class="like-quantidade">
+
+                        </i>
                         <i class="comment" >
                             <img src="../../public/icons/comentario.png" alt="">
                         </i>
+                        <i class="comment-quantidade">
+                            
+                        </i>
+                    </div>
+
+                    <div class="comentarios-da-postagem" v-for="(heroi,index) in comments" :key="index">
+                        <div v-if="heroi.postId == sup.id" class="agrupamento-comentario">
+                            <img :src="require(`../../public/img/${heroi.user}.png`)" alt="">
+                            <p class="nome-heroi-comentario">{{heroi.user}}</p>
+                            <p class="heroi-comentario">{{heroi.comment}}</p>
+                        </div>
+                    </div>
+
+                    <div class="input-comentario">
+                        <form action="">
+                            <input type="text" value="" placeholder="Comentar...">
+                        </form>
                     </div>
                 </div>
             </div>
@@ -29,12 +49,14 @@
 </template>
 
 <script>
-import { getPosts } from '../service/movinstagram-service.js';
+import { getPosts, getComments } from '../service/movinstagram-service.js';
 export default {
     data(){
         return{
             superData: [],
-            posts: 0
+            posts: 0,
+            comments: [],
+            quantComments: 0
         }
     },
     mounted(){
@@ -42,6 +64,15 @@ export default {
             this.superData = resp;
             this.posts = resp.length;
         });
+
+        getComments().then(resp => {
+            this.comments = resp;
+        });
+    },
+    methods:{
+        getCount(){
+            this.quantComments++;
+        }
     }
 }
 </script>
@@ -112,4 +143,43 @@ export default {
     width: 40px;
     height: 40px;
 }
+
+/*comentarios das postagens*/
+.agrupamento-comentario{
+    display: flex;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    height: 50px;
+    padding: 5px;
+    margin-bottom: 5px;
+    align-items: center;
+}
+
+.comentarios-da-postagem img{
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+}
+
+.nome-heroi-comentario{
+    font-weight: bold;
+    margin-left: 10px;
+    margin-right: 30px;
+}
+
+.heroi-comentario{
+    position: relative;
+    text-align: left;
+    font-size: 16px;
+}
+
+.input-comentario input{
+    margin-top: 20px;
+    border:none;
+    border-bottom: 1px solid lightgray;
+    width: 100%;
+    font-size: 16px;
+    padding: 15px;
+}
+
 </style>

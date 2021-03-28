@@ -13,9 +13,9 @@
           <div class="perfil-info">
             <h5>superman</h5>
             <div class="conteudo-info">
-              <p>71 posts</p>
-              <p>383 curtidas</p>
-              <p>381 comentários</p>
+              <p>{{countPost}} posts</p>
+              <p>{{countLikes}} curtidas</p>
+              <p>{{countComments}} comentários</p>
             </div>
           </div>
         </div>
@@ -41,7 +41,7 @@
               <p>superman</p>
             </div>
           </div>
-          <div @click="getRouter('/woman')" class="span-heroi">
+          <div @click="getRouter('/wonderWoman')" class="span-heroi">
             <div class="img-span-heroi">
               <img src="../public/img/wonderWoman.png" alt="">
             </div>
@@ -65,19 +65,38 @@
 </template>
 
 <script>
-
+import { getPosts, getLikes, getComments } from './service/movinstagram-service.js';
 export default {
   name: 'Movinstagram',
   components: {
   },
   data(){
     return{
+      countPost: 0,
+      countLikes: 0,
+      countComments: 0,
     }
   },
   methods:{
     getRouter(rota){
       this.$router.push({path: rota});
     },
+  },
+  mounted(){
+    getPosts().then(resp => {
+      this.countPost = resp.length;
+      console.log(this.countPost);
+    });
+
+    getLikes().then(resp => {
+      this.countLikes = resp.length;
+      console.log(this.countLikes);
+    });
+
+    getComments().then(resp => {
+      this.countComments = resp.length;
+      console.log(this.countComments);
+    });
   }
 }
 </script>
