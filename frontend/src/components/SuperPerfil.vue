@@ -7,7 +7,7 @@
         <div class="postagem-titulo">
             <div class="postagem-foto-user">
                 <div class="agrupamento-titulo">
-                    <img src="../../public/img/superman.png" alt="">
+                    <img :src="require(`../../public/img/${sup.user}.png`)" alt="">
                     <p class="user">{{sup.user}}</p>                       
                     <p class="title">{{sup.title}}</p>
                 </div>
@@ -49,25 +49,18 @@
 </template>
 
 <script>
-import { getPosts, getComments } from '../service/movinstagram-service.js';
 export default {
     data(){
         return{
-            superData: [],
             posts: 0,
-            comments: [],
             quantComments: 0
         }
+    }, 
+    props:{
+        comments: Array,
+        superData: Array,
     },
     mounted(){
-        getPosts().then(resp => {
-            this.superData = resp;
-            this.posts = resp.length;
-        });
-
-        getComments().then(resp => {
-            this.comments = resp;
-        });
     },
     methods:{
         getCount(){

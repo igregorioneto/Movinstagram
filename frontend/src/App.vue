@@ -4,23 +4,12 @@
 
     <div class="container-perfil">
       <!--Perfil-->
-      <div class="box-perfil">
-        <!--Imagem perfil / Informações perfil-->
-        <div class="box-dentro-perfil">
-          <div class="perfil-imagem">
-            <img src="../public/img/superman.png" alt="">
-          </div>
-          <div class="perfil-info">
-            <h5>superman</h5>
-            <div class="conteudo-info">
-              <p>{{countPost}} posts</p>
-              <p>{{countLikes}} curtidas</p>
-              <p>{{countComments}} comentários</p>
-            </div>
-          </div>
-        </div>
+      <heroi-perfil
+         :countPost="countPost"
+         :countLikes="countLikes"
+         :countComments="countComments"
+      />
         
-      </div>
       <!--Visualizador do timeline-->
       <div class="box-timeline">
         <h4>Visualizar timeline com:</h4>
@@ -54,13 +43,11 @@
     </div>
 
     <div class="separacao"></div>
-
-    <div>
-      
-
-    </div>
     
-    <router-view />
+    <super-perfil 
+      :comments="comments"
+      :superData="superData"
+    />
   </div>
 </template>
 
@@ -68,35 +55,53 @@
 import { getPosts, getLikes, getComments } from './service/movinstagram-service.js';
 export default {
   name: 'Movinstagram',
-  components: {
-  },
   data(){
     return{
       countPost: 0,
       countLikes: 0,
       countComments: 0,
+      comments: [],
+      superData: [],
+      countCommentsPost: []
     }
   },
-  methods:{
-    getRouter(rota){
-      this.$router.push({path: rota});
-    },
+  components: {
   },
   mounted(){
     getPosts().then(resp => {
+      this.superData = resp;
       this.countPost = resp.length;
-      console.log(this.countPost);
     });
 
     getLikes().then(resp => {
       this.countLikes = resp.length;
-      console.log(this.countLikes);
     });
 
     getComments().then(resp => {
       this.countComments = resp.length;
-      console.log(this.countComments);
+      this.comments = resp;
+
+      console.log(this.countCommentsPost);
+      this.superData.map((value) =>{
+        let count = 0;
+        let index = 0;
+        this.comments.map(obj =>{
+          if(value.id == obj.postId){        
+            count++;
+          }
+        });
+        index++;
+        this.countCommentsPost[index] = count;
+        console.log(this.countCommentsPost);
+      });
     });
+    
+    
+  },
+  methods:{
+    getRouter(rota){
+      this.$router.push({path: rota});
+    }
   }
 }
 </script>
@@ -121,41 +126,6 @@ export default {
   display: flex;
   margin: 15px 20px;
 }
-
-.box-perfil{
-  flex: 1 1 0;
-  width: 35%;
-}
-
-.box-timeline{
-  flex: 1 1 0;
-  width: 65%;
-  border: 1px solid lightgray;
-  padding-left: 15px;
-}
-
-.box-dentro-perfil{
-  display: flex;
-}
-
-.perfil-imagem img{
-  border-radius: 50%;
-  width: 120px;
-}
-
-.perfil-info{
-  margin-left: 15px;
-}
-
-.conteudo-info{
-  font-size: 12px;
-  margin-top: -14px;
-}
-
-.perfil-info h5{
-  font-size: 16px;
-  font-weight: bold;
-}
 /*Configurações básicas do perfil*/
 /*Visualizar Timeline*/
 .box-timeline h4{
@@ -168,7 +138,7 @@ export default {
 }
 .box-heroi{
   display: flex;
-  margin-right: 25px;
+  margin-right: 200px;
 }
 .span-heroi{
   display: flex;
