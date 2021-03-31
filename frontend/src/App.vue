@@ -8,13 +8,14 @@
          :countPost="countPost"
          :countLikes="countLikes"
          :countComments="countComments"
+         :rotaSelecionada="rotaSelecionada"
       />
         
       <!--Visualizador do timeline-->
       <div class="box-timeline">
         <h4>Visualizar timeline com:</h4>
         <div class="box-heroi">
-          <div @click="getRouter('/batman')" class="span-heroi">
+          <div @click="getRouter('batman')" class="span-heroi">
             <div class="img-span-heroi">
               <img src="../public/img/batman.png" alt="">
             </div>
@@ -22,7 +23,7 @@
               <p>batman</p>
             </div>
           </div>
-          <div @click="getRouter('/')" class="span-heroi">
+          <div @click="getRouter('superman')" class="span-heroi">
             <div class="img-span-heroi">
               <img src="../public/img/superman.png" alt="">
             </div>
@@ -30,7 +31,7 @@
               <p>superman</p>
             </div>
           </div>
-          <div @click="getRouter('/wonderWoman')" class="span-heroi">
+          <div @click="getRouter('wonderWoman')" class="span-heroi">
             <div class="img-span-heroi">
               <img src="../public/img/wonderWoman.png" alt="">
             </div>
@@ -47,6 +48,8 @@
     <super-perfil 
       :comments="comments"
       :superData="superData"
+      :countCommentsPost="countCommentsPost"
+      :countLikesPost="countLikesPost"
     />
   </div>
 </template>
@@ -62,7 +65,9 @@ export default {
       countComments: 0,
       comments: [],
       superData: [],
-      countCommentsPost: []
+      countCommentsPost: [],
+      countLikesPost: [],
+      rotaSelecionada: 'superman',
     }
   },
   components: {
@@ -75,32 +80,41 @@ export default {
 
     getLikes().then(resp => {
       this.countLikes = resp.length;
+      this.likes = resp;
+      //likes por post
+      this.superData.map((value)=>{
+        let count = 0;
+        this.likes.map((obj) => {
+          if(value.id == obj.postId){
+            count++;
+          }
+        });
+        this.countLikesPost.push(count);
+      });
     });
 
     getComments().then(resp => {
       this.countComments = resp.length;
-      this.comments = resp;
-
-      console.log(this.countCommentsPost);
+      this.comments = resp;  
+      //comments por post
       this.superData.map((value) =>{
         let count = 0;
-        let index = 0;
         this.comments.map(obj =>{
           if(value.id == obj.postId){        
             count++;
           }
         });
-        index++;
-        this.countCommentsPost[index] = count;
-        console.log(this.countCommentsPost);
+        this.countCommentsPost.push(count);
       });
     });
-    
-    
   },
   methods:{
     getRouter(rota){
-      this.$router.push({path: rota});
+      this.$router.push({name: rota});
+     // let routeAtual = this.$router.options.routes;
+     // const heroirota = routeAtual.filter(value => value.path == rota);
+     // console.log(heroirota);
+     this.rotaSelecionada = rota;
     }
   }
 }

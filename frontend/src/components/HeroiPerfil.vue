@@ -3,10 +3,10 @@
         <!--Imagem perfil / Informações perfil-->
         <div class="box-dentro-perfil">
           <div class="perfil-imagem">
-            <img src="../../public/img/superman.png" alt="">
+            <img :src="require(`../../public/img/${rotaSelecionada}.png`)" alt="">
           </div>
           <div class="perfil-info">
-            <h5>superman</h5>
+            <h5>{{rotaSelecionada}}</h5>
             <div class="conteudo-info">
               <p>{{countPost}} posts</p>
               <p>{{countLikes}} curtidas</p>
@@ -23,6 +23,7 @@ export default {
         countPost: Number,
         countLikes: Number,
         countComments: Number,
+        rotaSelecionada: String
     }
 }
 </script>

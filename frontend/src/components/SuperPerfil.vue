@@ -15,17 +15,14 @@
             <div class="postagem-titulo-user">
                 <div class="comentarios">
                     <div class="icons" >
-                        <i class="like" >
-                            <img src="../../public/icons/coracao-normal.png" alt="">
-                        </i>
-                        <i class="like-quantidade">
-
+                        <i class="like">
+                            <img  @mouseenter="eventCurtidas" 
+                            src="../../public/icons/coracao-normal.png" alt="">
+                            <span>{{countLikesPost[index]}}</span>
                         </i>
                         <i class="comment" >
                             <img src="../../public/icons/comentario.png" alt="">
-                        </i>
-                        <i class="comment-quantidade">
-                            
+                            <span>{{countCommentsPost[index]}}</span>
                         </i>
                     </div>
 
@@ -59,12 +56,17 @@ export default {
     props:{
         comments: Array,
         superData: Array,
+        countCommentsPost: Array,
+        countLikesPost: Array
     },
     mounted(){
     },
     methods:{
         getCount(){
             this.quantComments++;
+        },
+        eventCurtidas(){
+            console.log('event');
         }
     }
 }
@@ -124,7 +126,7 @@ export default {
 
 .like{
     flex: 1 1 0;
-    width: 20%;
+    width: 30%;
 }
 .comment img{
     margin-left: 15px;
@@ -132,9 +134,22 @@ export default {
     height: 20px;
 }
 
+.comment span{
+    position:relative;
+    font-size: 12px;
+    margin-left: 2px;
+    top: -5px;
+}
+
 .like img{
     width: 40px;
     height: 40px;
+}
+
+.like span{
+    position:relative;
+    font-size: 12px;
+    top: -15px;    
 }
 
 /*comentarios das postagens*/
@@ -173,6 +188,12 @@ export default {
     width: 100%;
     font-size: 16px;
     padding: 15px;
+}
+
+.box-event-curtidas{
+    width: 50px;
+    height: 150px;
+    background: gray;
 }
 
 </style>

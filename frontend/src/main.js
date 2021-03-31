@@ -11,9 +11,9 @@ import HeroiPerfil from './components/HeroiPerfil.vue';
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-        {path: "/", component: SuperPerfil},
-        {path: "/batman", component: BatPerfil},
-        {path: "/wonderWoman", component: WomanPerfil}
+        {path: "/", name: "superman", component: SuperPerfil},
+        {path: "/batman",name: "batman", component: BatPerfil},
+        {path: "/wonderWoman",name: "wonderWoman", component: WomanPerfil}
     ]
 });
 
