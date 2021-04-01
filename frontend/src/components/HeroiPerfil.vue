@@ -3,10 +3,10 @@
         <!--Imagem perfil / Informações perfil-->
         <div class="box-dentro-perfil">
           <div class="perfil-imagem">
-            <img :src="require(`../../public/img/${rotaSelecionada}.png`)" alt="">
+            <img src="../../public/img/superman.png" alt="">
           </div>
           <div class="perfil-info">
-            <h5>{{rotaSelecionada}}</h5>
+            <h5>superman</h5>
             <div class="conteudo-info">
               <p>{{countPost}} posts</p>
               <p>{{countLikes}} curtidas</p>
@@ -18,12 +18,28 @@
 </template>
 
 <script>
+import { getPosts, getLikes, getComments } from '../service/movinstagram-service.js';
 export default {
-    props:{
-        countPost: Number,
-        countLikes: Number,
-        countComments: Number,
-        rotaSelecionada: String
+    data(){
+      return{
+        countPost: 0,
+        countLikes: 0,
+        countComments: 0,
+      }
+    },
+    mounted(){
+      getPosts().then(resp => {
+        this.countPost = resp.length;
+      });
+
+      getLikes().then(resp => {
+        this.countLikes = resp.length;
+      });
+
+      getComments().then(resp => {
+        this.countComments = resp.length;
+      });
+
     }
 }
 </script>
