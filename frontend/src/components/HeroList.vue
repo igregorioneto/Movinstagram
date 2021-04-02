@@ -31,14 +31,9 @@
                         <div                         
                             :class="{'box-nome-herois-curtidas': active}"
                             id="herois-curtidas"
-                            >
+                        >
                             <div>
-                                {{sup.user}} <br />
-                                {{sup.user}} <br />
-                                {{sup.user}} <br />
-                                {{sup.user}} <br />
-                                {{sup.user}} <br />
-                                {{sup.user}} <br />
+                                {{nomesHeroisLikes[index]}}
                             </div>
                         </div>
                     </div>
@@ -73,6 +68,7 @@ export default {
             countCommentsPost: [],
             countLikesPost: [],
             nomesHeroisLikes: [],
+            nomesPorPostagem: [],
             active: false
         }
     },
@@ -89,17 +85,29 @@ export default {
             //likes por post
             this.superData.map((value)=>{
                 let count = 0;
-                let user = []
+                let user = [];
                 this.likes.map((obj) => {
                     if(value.id == obj.postId){
                         count++; 
-                        user.push(obj.user);                   
-                    }
+                        user.push(obj.user.toString());                
+                    }  
                 });            
-                this.nomesHeroisLikes.push(user);
+                this.nomesHeroisLikes.push(user.join('\n'));
                 this.countLikesPost.push(count);
             });
-
+            
+            /** --> map utilizado anterior para fazer o que o user.push do map anterior
+             *      esta fazendo. Jogar os nomes listados, transformando em strings e depois
+             *      quebrando linha.
+                this.nomesHeroisLikes.map((value) => {
+                    let nomes = [];
+                    value.map((nome) => { 
+                        nomes.push(nome.toString());
+                    });
+                    this.nomesPorPostagem.push(nomes.join('\n'));
+                });
+             */
+            
         });
         
 
@@ -255,9 +263,9 @@ export default {
 .box-nome-herois-curtidas{
   position: absolute;
   color: white;
-  width: 100px;
+  width: 98px;
+  padding: 8px;
   background-color: #1C1C1C;
   z-index: 9999;
 }
-
 </style>
