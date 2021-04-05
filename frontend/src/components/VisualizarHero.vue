@@ -2,7 +2,7 @@
     <div class="box-timeline">
         <h4>Visualizar timeline com:</h4>
         <div class="box-heroi">
-          <div @click="getRouter('batman')" class="span-heroi">
+          <div @click="getRouter('batman')" class="span-heroi" id="batman">
             <div class="img-span-heroi">
               <img src="../../public/img/batman.png" alt="">
             </div>
@@ -10,7 +10,7 @@
               <p>batman</p>
             </div>
           </div>
-          <div @click="getRouter('superman')" class="span-heroi">
+          <div @click="getRouter('superman')" class="span-heroi-selected" id="superman">
             <div class="img-span-heroi">
               <img src="../../public/img/superman.png" alt="">
             </div>
@@ -18,7 +18,7 @@
               <p>superman</p>
             </div>
           </div>
-          <div @click="getRouter('wonderWoman')" class="span-heroi">
+          <div @click="getRouter('wonderWoman')" class="span-heroi" id="wonderWoman">
             <div class="img-span-heroi">
               <img src="../../public/img/wonderWoman.png" alt="">
             </div>
@@ -34,6 +34,8 @@
 export default {
   data(){
     return{
+      heroiSelecionado: "span-heroi",
+      imgHero: ''
     }
   },
     methods:{
@@ -42,8 +44,46 @@ export default {
       // let routeAtual = this.$router.options.routes;
       // const heroirota = routeAtual.filter(value => value.path == rota);
       // console.log(heroirota);
+      this.getHeroiAcitve(rota);
+      this.$emit('nomeHero',this.imgHero);
+    },
+    getHeroiAcitve(rota){
+      let classeWoman = document.getElementById('wonderWoman');
+      let classeBat = document.getElementById('batman');
+      let classeSup = document.getElementById('superman');
+
+      if(rota === 'superman' || rota === ''){
+        this.imgHero = 'superman';
+        
+        classeSup.classList.add('span-heroi-selected');
+
+        classeBat.classList.remove('span-heroi-selected');
+        classeBat.classList.add('span-heroi');
+        classeWoman.classList.remove('span-heroi-selected');
+        classeWoman.classList.add('span-heroi');
+      }
+      else if (rota === 'batman'){
+        this.imgHero = 'batman';
+        
+        classeBat.classList.remove('span-heroi');
+        classeBat.classList.add('span-heroi-selected');
+
+        classeSup.classList.remove('span-heroi-selected');
+        classeSup.classList.add('span-heroi');
+        classeWoman.classList.remove('span-heroi-selected');
+        classeWoman.classList.add('span-heroi');
+      }else if(rota === 'wonderWoman'){
+        this.imgHero = 'wonderWoman';
+        classeWoman.classList.remove('span-heroi');
+        classeWoman.classList.add('span-heroi-selected');
+
+        classeSup.classList.remove('span-heroi-selected');
+        classeSup.classList.add('span-heroi');
+        classeBat.classList.remove('span-heroi-selected');
+        classeBat.classList.add('span-heroi');
+      }
     }
-    }
+  }
 }
 </script>
 
@@ -68,6 +108,15 @@ export default {
   margin-right: 5px;
   padding: 6px;
   cursor: pointer;
+}
+
+.span-heroi-selected{
+  display: flex;
+  margin-right: 5px;
+  padding: 6px;
+  cursor: pointer;
+  border: 1px solid lightgray;
+  background-color: lightgray;
 }
 
 .span-heroi:hover{

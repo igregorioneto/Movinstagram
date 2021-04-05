@@ -4,10 +4,11 @@
 
     <div class="container-perfil">
       <!--Perfil-->
-      <heroi-perfil />
+      <heroi-perfil :nomeDoHero="nomeDoHero"/>
         
       <!--Visualizador do timeline-->
-      <visualizar-hero />
+      <visualizar-hero  
+        @nomeHero="nomeHero"/>
     </div>
 
     <div class="separacao"></div>
@@ -21,9 +22,13 @@ export default {
   name: 'Movinstagram',
   data(){
     return{
+      nomeDoHero: 'superman'
     }
   },
-  components: {
+  methods:{
+    nomeHero(imgHero){
+      this.nomeDoHero = imgHero;
+    }
   }
 }
 </script>

@@ -3,10 +3,10 @@
         <!--Imagem perfil / Informações perfil-->
         <div class="box-dentro-perfil">
           <div class="perfil-imagem">
-            <img src="../../public/img/superman.png" alt="">
+            <img :src="require(`../../public/img/${nomeDoHero}.png`)" alt="">
           </div>
           <div class="perfil-info">
-            <h5>superman</h5>
+            <h5>{{nomeDoHero}}</h5>
             <div class="conteudo-info">
               <p>{{countPost}} posts</p>
               <p>{{countLikes}} curtidas</p>
@@ -27,6 +27,9 @@ export default {
         countComments: 0,
       }
     },
+    props:{
+      nomeDoHero: String,
+    },
     mounted(){
       getPosts().then(resp => {
         this.countPost = resp.length;
@@ -39,7 +42,6 @@ export default {
       getComments().then(resp => {
         this.countComments = resp.length;
       });
-
     }
 }
 </script>
