@@ -254,7 +254,7 @@ export default {
     margin-top: 20px;
     border:none;
     border-bottom: 1px solid lightgray;
-    width: 100%;
+    width: 95%;
     font-size: 16px;
     padding: 15px;
 }
