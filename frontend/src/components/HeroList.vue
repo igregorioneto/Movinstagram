@@ -48,8 +48,10 @@
                     </div>
 
                     <div class="input-comentario">
-                        <form action="">
-                            <input type="text" value="" placeholder="Comentar...">
+                        <form action="" @submit.prevent="salvarComment">
+                            <input :disabled="nomeDoHero == sup.user"
+                            v-model="comentario" 
+                            type="text" placeholder="Comentar...">
                         </form>
                     </div>
                 </div>
@@ -69,9 +71,14 @@ export default {
             countLikesPost: [],
             nomesHeroisLikes: [],
             nomesPorPostagem: [],
-            active: false
+            active: false,
+            comentario: ''
         }
     },
+    props:{
+        nomeDoHero: String,
+    }
+    ,
     mounted(){
         //postagens
         getPosts().then(resp => {
@@ -81,7 +88,6 @@ export default {
         //likes
         getLikes().then(resp => {
             this.likes = resp;
-            
             //likes por post
             this.superData.map((value)=>{
                 let count = 0;
@@ -129,6 +135,8 @@ export default {
             });
         });
 
+        
+
     },
     methods:{
         mouseover: function(){
@@ -136,6 +144,16 @@ export default {
         },
         mouseleave: function(){
             this.active = false;
+        },
+        salvarComment(Event){
+            let comments = [];
+            if(Event.type === 'submit'){
+                console.log(this.comentario);
+                comments.push({hero:this.nomeDoHero,comentario:this.comentario});
+                localStorage.setItem('comentario',JSON.stringify(comments));
+                this.comentario = '';
+            }
+
         }
     }
 }

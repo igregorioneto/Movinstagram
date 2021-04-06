@@ -13,7 +13,8 @@
 
     <div class="separacao"></div>
     
-    <hero-list />
+    <hero-list 
+    :nomeDoHero="nomeDoHero"/>
   </div>
 </template>
 
