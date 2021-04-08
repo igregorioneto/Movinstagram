@@ -25,9 +25,23 @@ const getBestFriends = async () => {
     return resp.data;
 }
 
+const postComments = async (id, comment, user, postId) => {
+    try{
+        await axios.post('http://localhost:3001/comments/',{
+        id: id,
+        comment: comment,
+        user: user,
+        postId: postId});
+    }catch(e){
+        console.log(e);
+    }
+    
+}
+
 export{
     getPosts,
     getComments,
     getLikes,
-    getBestFriends
+    getBestFriends,
+    postComments
 }

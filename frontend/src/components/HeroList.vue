@@ -50,7 +50,8 @@
                     <div class="input-comentario">
                         <form action="" @submit.prevent="salvarComment">
                             <input :disabled="nomeDoHero == sup.user"
-                            v-model="comentario" 
+                            :id="sup.id"
+                            v-model="comentario"
                             type="text" placeholder="Comentar...">
                         </form>
                     </div>
@@ -61,7 +62,8 @@
 </template>
 
 <script>
-import { getPosts, getLikes, getComments } from '../service/movinstagram-service.js';
+import { getPosts, getLikes, getComments, postComments } from '../service/movinstagram-service.js';
+import { v4 as uuidv4 } from 'uuid';
 export default {
     data(){
         return{
@@ -72,14 +74,15 @@ export default {
             nomesHeroisLikes: [],
             nomesPorPostagem: [],
             active: false,
-            comentario: ''
+            comentario: '',
+            uuid: uuidv4()
         }
     },
     props:{
         nomeDoHero: String,
     }
     ,
-    mounted(){
+    beforeMount(){
         //postagens
         getPosts().then(resp => {
             this.superData = resp;
@@ -119,7 +122,7 @@ export default {
 
         //comentarios
         getComments().then(resp => {
-            this.comments = resp;  
+            this.comments = resp;
             //comments por post
             this.superData.map((value) =>{
                 let count = 0;
@@ -133,10 +136,8 @@ export default {
                 this.countCommentsPost.push(count);
 
             });
-        });
-
+        });  
         
-
     },
     methods:{
         mouseover: function(){
@@ -145,15 +146,19 @@ export default {
         mouseleave: function(){
             this.active = false;
         },
-        salvarComment(Event){
-            let comments = [];
+        async salvarComment(Event){
             if(Event.type === 'submit'){
-                console.log(this.comentario);
-                comments.push({hero:this.nomeDoHero,comentario:this.comentario});
-                localStorage.setItem('comentario',JSON.stringify(comments));
-                this.comentario = '';
-            }
+                let postId = Event.target[0].id;
+                if(this.comentario != ''){
+                   postComments(
+                       this.uuid,this.comentario,this.nomeDoHero,postId);
 
+                    localStorage.setItem('comentario',JSON.stringify(
+                    {comment:this.comentario,user:this.nomeDoHero}));
+                   
+                   this.comentario = '';
+                }
+            }
         }
     }
 }
